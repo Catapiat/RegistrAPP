@@ -11,6 +11,7 @@ export class LonginServicioService {
   public listaProfesor: Profesor[] = [];
   profesor: Profesor;
   db: DataBaseService;
+  
 
   constructor(db: DataBaseService) {
     this.db=db;    
