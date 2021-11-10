@@ -40,12 +40,4 @@ export class LonginServicioService {
           return this.profesor;
        });
    }
-
-  //  getNombre(usuario:string): Promise<Profesor>
-  //  {
-  //      return this.db.getNombreUsuario(usuario).then(data => {
-  //          this.profesor = data;
-  //          return this.profesor;
-  //       });
-  //   }
 }
