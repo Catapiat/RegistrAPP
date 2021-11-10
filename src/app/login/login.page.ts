@@ -102,6 +102,23 @@ export class LoginPage implements OnInit {
     };
    
     if(this.validateUsuario(this.user)){
+      this.dbServices.getDatabaseState().subscribe(rdy => {
+        if (rdy) {
+          this.dbServices.getUsuario(this.user.usuario, this.user.clave).then(rs => {
+            this.Profesor = rs;
+            this.usr=this.Profesor.usuario;
+            this.psw=this.Profesor.clave;
+          });
+        }
+      });
+      if(this.usr===this.user.usuario && this.psw === this.user.clave){
+        alert(this.usr);
+        //this.router.navigate(['/principal/', this.usr], navigationExtras);
+        this.router.navigate(['/recuperar/', this.user.usuario], navigationExtras);
+      }
+      else{
+         this.presentToast('Nombre de usuario no valido');
+      }
       //this.usuarioServiceS=this.usuarioService.getUsuario(this.user.usuario);
       // if(this.usuarioService.getUsuario(this.user.usuario).usuario === this.user.usuario){
       //   this.router.navigate(['/recuperar/', this.user.usuario], navigationExtras);

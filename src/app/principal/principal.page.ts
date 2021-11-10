@@ -30,7 +30,6 @@ export class PrincipalPage implements OnInit {
     this.activateRoute.paramMap.subscribe(
     paramMap=>{
       const idContactoRecibido=paramMap.get('NombreUsuario');
-      alert(idContactoRecibido); 
       this.dbServices.getDatabaseState().subscribe(rdy => {
         if (rdy) {
           this.dbServices.getNombreUsuario(idContactoRecibido).then(rs => {
