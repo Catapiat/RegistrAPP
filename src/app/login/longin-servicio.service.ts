@@ -13,8 +13,7 @@ export class LonginServicioService {
   db: DataBaseService;
 
   constructor(db: DataBaseService) {
-    this.db=db;
-    
+    this.db=db;    
    }
   
   getDabaseState()
