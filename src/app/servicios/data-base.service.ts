@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 
 import { Profesor } from '../Profesor/profesor.model';
-import { UsuarioService } from '../usuarios/usuarios.service';
 
 
 @Injectable({
@@ -114,15 +113,64 @@ export class DataBaseService {
       });
     }
 
-    getUsuario(usurio: string, clave:string): Promise<Profesor>{
-      return this.dataBase.executeSql('SELECT * FROM Profesor WHERE usuario = ? and clave = ?', [usurio,clave])
-      .then(resSelect => { 
-        if(resSelect.rows.length){
-          return resSelect.rows.item(0);
+    getUsuario(usuario: string, clave:string): Promise<Profesor>{
+      return this.dataBase.executeSql('SELECT * FROM Profesor WHERE usuario = ? and clave = ?', [usuario,clave]).then(resSelect => { 
+        return {
+              id: resSelect.rows.item(0).id,
+              nombre: resSelect.rows.item(0).nombre,
+              apellidos: resSelect.rows.item(0).apellidos,
+              domicilio: resSelect.rows.item(0).domicilio,
+              email: resSelect.rows.item(0).email,
+              fono: resSelect.rows.item(0).fono,
+              usuario: resSelect.rows.item(0).usuario,
+              clave: resSelect.rows.item(0).clave
         }
-        return null;
+      });
+    }
+
+    BuscarUsuarioContraseña(usuario,clave){
+      return this.dataBase.executeSql('SELECT * FROM Profesor Where usuario = ? and clave = ?', [usuario,clave]).then(data => {
+        let Profesor: Profesor[] = [];
+  
+        if (data.rows.length > 0) {
+          for (var i = 0; i < data.rows.length; i++) {
+              Profesor.push(
+                data.rows.item(i));
+          }
+        }
+        this.listaProfesores.next(Profesor);
+      });
+    }
+
+    getNombreUsuario(usuario: string): Promise<Profesor>{
+        alert(usuario);
+        return this.dataBase.executeSql('SELECT * FROM Profesor WHERE usuario = ?', [usuario]).then(resSelect => { 
+          return {
+                id: resSelect.rows.item(0).id,
+                nombre: resSelect.rows.item(0).nombre,
+                apellidos: resSelect.rows.item(0).apellidos,
+                domicilio: resSelect.rows.item(0).domicilio,
+                email: resSelect.rows.item(0).email,
+                fono: resSelect.rows.item(0).fono,
+                usuario: resSelect.rows.item(0).usuario,
+                clave: resSelect.rows.item(0).clave
+          }
         });
-      }
+        }
+
+      TraeNombreUsuario(usuario){
+          return this.dataBase.executeSql('SELECT * FROM Profesor Where usuario = ?', [usuario]).then(data => {
+            let Profesor: Profesor[] = [];
+      
+            if (data.rows.length > 0) {
+              for (var i = 0; i < data.rows.length; i++) {
+                  Profesor.push(
+                    data.rows.item(i));
+              }
+            }
+            this.listaProfesores.next(Profesor);
+          });
+        }
     
     addProfesor(nombre, apellidos,domicilio,email,fono,usuario,clave) {
       let data = [ nombre, apellidos,domicilio,email,fono,usuario,clave];

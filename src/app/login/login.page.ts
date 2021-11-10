@@ -55,6 +55,10 @@ export class LoginPage implements OnInit {
     this.listaProfesor=this.loginService.getProfesores();    
   }
 
+  ionViewWillEnter() {
+    this.listaProfesor=this.loginService.getProfesores(); 
+  }
+
   ingresar(){
     const navigationExtras: NavigationExtras = {
       state: {
@@ -74,8 +78,8 @@ export class LoginPage implements OnInit {
           }
         });
         if(this.usr===this.user.usuario && this.psw === this.user.clave){
-        
-          this.router.navigate(['/principal/', this.user.usuario], navigationExtras);
+          alert(this.usr);
+          this.router.navigate(['/principal/', this.usr], navigationExtras);
         }             
            
         else
